@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 react-http/node_modules
+react-custom-hooks/node_modules
 
 # testing
 /coverage
