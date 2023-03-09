@@ -1,37 +1,65 @@
+import React from 'react'
 import styles from './AvailableMeals.module.css'
 import { Card } from "../UI/Card"
 import { MealItem } from './MealItem/MealItem';
 
-const DUMMY_MEALS = [
+
+async function fetchMeals()
+{
+  const response = await fetch("https://react-http-b7c62-default-rtdb.europe-west1.firebasedatabase.app/meals.json");
+  if (response.ok === false) 
   {
-    id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
-  },
+    throw new Error("Error while fetching data...");
+  }
+
+  const data = await response.json();
+  const loadedMeals = [];
+
+  for (const key in data)
   {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5,
-  },
-  {
-    id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99,
-  },
-  {
-    id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99,
-  },
-];
+    const meal = { id: key, description: data[key].description, name: data[key].name, price: data[key].price };
+    loadedMeals.push(meal);
+  }
+
+  return loadedMeals;
+}
 
 function AvailableMeals()
 {
-  const meals = DUMMY_MEALS.map((meal) =>
+  const [meals, setMeals] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() =>
+  {
+    setIsLoading(true);
+    setError(null);
+
+    fetchMeals()
+      .then(data => setMeals(data))
+      .catch(error => setError(error.message))
+      .finally(() => setIsLoading(false));
+  }, [])
+
+  if (isLoading)
+  {
+    return (
+      <section className={ styles.meals_loading }>
+        <div>Loading...</div>
+      </section>
+    )
+  }
+
+  if (error)
+  {
+    return (
+      <section className={ styles.meals_error }>
+        <div>{ error }</div>
+      </section>
+    )
+  }
+
+  const mealsList = meals.map((meal) =>
   {
     return <MealItem key={ meal.id } id={ meal.id } name={ meal.name } description={ meal.description } price={ meal.price } />
   });
@@ -39,7 +67,7 @@ function AvailableMeals()
   return (
     <section className={ styles.meals }>
       <Card>
-        <ul>{ meals }</ul>
+        <ul>{ mealsList }</ul>
       </Card>
     </section>
   )

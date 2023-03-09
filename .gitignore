@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+react-app/node_modules
 react-http/node_modules
 react-custom-hooks/node_modules
 react-forms/node_modules
