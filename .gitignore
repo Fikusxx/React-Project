@@ -5,6 +5,7 @@ react-http/node_modules
 react-custom-hooks/node_modules
 react-forms/node_modules
 react-redux/node_modules
+react-redux-http/node_modules
 
 # testing
 /coverage
