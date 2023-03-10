@@ -17,7 +17,7 @@ function HeaderCartButton({ onClick, ...props })
 
     React.useEffect(() =>
     {
-        if (ctx.items.length === 0) return;
+        if (items.length === 0) return;
 
         setIsHighlighted(true);
         const timer = setTimeout(() =>
