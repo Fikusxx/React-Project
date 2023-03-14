@@ -6,6 +6,9 @@ react-custom-hooks/node_modules
 react-forms/node_modules
 react-redux/node_modules
 react-redux-http/node_modules
+react-routing/node_modules
+react-routing-project/backend/node_modules
+react-routing-project/frontend/node_modules
 
 # testing
 /coverage
